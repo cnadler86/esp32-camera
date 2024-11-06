@@ -362,6 +362,7 @@ esp_err_t cam_config(const camera_config_t *config, framesize_t frame_size, uint
     esp_err_t ret = ESP_OK;
 
     ret = ll_cam_set_sample_mode(cam_obj, (pixformat_t)config->pixel_format, config->xclk_freq_hz, sensor_pid);
+    CAM_CHECK_GOTO(ret == ESP_OK, "ll_cam_set_sample_mode failed", err);
 
     cam_obj->jpeg_mode = config->pixel_format == PIXFORMAT_JPEG;
 #if CONFIG_IDF_TARGET_ESP32
@@ -406,12 +407,12 @@ esp_err_t cam_config(const camera_config_t *config, framesize_t frame_size, uint
     CAM_CHECK_GOTO(ret == ESP_OK, "cam intr alloc failed", err);
 
 
-#if CONFIG_CAMERA_CORE0
+#if CONFIG_FREERTOS_UNICORE
     xTaskCreatePinnedToCore(cam_task, "cam_task", CAM_TASK_STACK, NULL, configMAX_PRIORITIES - 2, &cam_obj->task_handle, 0);
-#elif CONFIG_CAMERA_CORE1
-    xTaskCreatePinnedToCore(cam_task, "cam_task", CAM_TASK_STACK, NULL, configMAX_PRIORITIES - 2, &cam_obj->task_handle, 1);
 #else
-    xTaskCreate(cam_task, "cam_task", CAM_TASK_STACK, NULL, configMAX_PRIORITIES - 2, &cam_obj->task_handle);
+    xTaskCreatePinnedToCore(cam_task, "cam_task", CAM_TASK_STACK, NULL, configMAX_PRIORITIES - 2, &cam_obj->task_handle, 1);
+// #else
+//     xTaskCreate(cam_task, "cam_task", CAM_TASK_STACK, NULL, configMAX_PRIORITIES - 2, &cam_obj->task_handle);
 #endif
 
     ESP_LOGI(TAG, "cam config ok");
