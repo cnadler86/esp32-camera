@@ -251,5 +251,4 @@ bool esp_camera_available_frames(void);
 }
 #endif
 
-#include "img_converters.h"
 
