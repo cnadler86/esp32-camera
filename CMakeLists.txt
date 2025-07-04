@@ -15,14 +15,13 @@ set(priv_include_dirs
 
 set(include_dirs
   driver/include
-  conversions/include
   )
 
 set(COMPONENT_REQUIRES driver)
 
 # set driver sources only for supported platforms
 if(IDF_TARGET STREQUAL "esp32" OR IDF_TARGET STREQUAL "esp32s2" OR IDF_TARGET STREQUAL "esp32s3")
-  list(APPEND srcs
+  set(srcs
     driver/esp_camera.c
     driver/cam_hal.c
     driver/sensor.c
@@ -45,7 +44,7 @@ if(IDF_TARGET STREQUAL "esp32" OR IDF_TARGET STREQUAL "esp32s2" OR IDF_TARGET ST
     sensors/hm0360.c
     )
 
-  list(APPEND priv_include_dirs
+  set(priv_include_dirs
     driver/private_include
     sensors/private_include
     target/private_include
