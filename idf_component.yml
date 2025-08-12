@@ -3,3 +3,5 @@ url: https://github.com/espressif/esp32-camera
 issues: https://github.com/espressif/esp32-camera/issues
 documentation: https://github.com/espressif/esp32-camera/tree/main/README.md
 repository: https://github.com/espressif/esp32-camera.git
+dependencies:
+  idf: ">=5.1"
