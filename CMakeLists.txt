@@ -1,18 +1,6 @@
 # get IDF version for comparison
 set(idf_version "${IDF_VERSION_MAJOR}.${IDF_VERSION_MINOR}")
 
-# set conversion sources
-set(srcs
-  conversions/yuv.c
-  conversions/to_jpg.cpp
-  conversions/to_bmp.c
-  conversions/jpge.cpp
-  )
-
-set(priv_include_dirs
-  conversions/private_include
-  )
-
 set(include_dirs
   driver/include
   )
