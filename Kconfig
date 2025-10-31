@@ -287,4 +287,12 @@ menu "Camera configuration"
         default n
         help
             If this option is enabled, camera ISR will execute from IRAM.
+
+    config CAMERA_CONVERSION_SUPPORT
+        bool "Enable image conversion support"
+        default y
+        help
+            Enable this option to include image conversion functions (YUV, JPEG, BMP).
+            Disable this option to save memory and reduce code size if image conversion is not needed.
+
 endmenu

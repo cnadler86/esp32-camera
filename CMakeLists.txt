@@ -3,22 +3,28 @@ set(idf_version "${IDF_VERSION_MAJOR}.${IDF_VERSION_MINOR}")
 
 set(priv_requires "")
 
-# set conversion sources
-set(srcs
-  conversions/yuv.c
-  conversions/to_jpg.cpp
-  conversions/to_bmp.c
-  conversions/jpge.cpp
-  )
-
-set(priv_include_dirs
-  conversions/private_include
-  )
-
+# Initialize source and include directories
 set(include_dirs
   driver/include
-  conversions/include
+)
+
+set(priv_include_dirs "")
+
+# Add conversion sources if enabled
+if(CONFIG_CAMERA_CONVERSION_SUPPORT)
+  list(APPEND srcs
+    conversions/yuv.c
+    conversions/to_jpg.cpp
+    conversions/to_bmp.c
+    conversions/jpge.cpp
   )
+  list(APPEND include_dirs
+    conversions/include
+  )
+  list(APPEND priv_include_dirs
+    conversions/private_include
+  )
+endif()
 
 # set driver sources only for supported platforms
 if(IDF_TARGET STREQUAL "esp32" OR IDF_TARGET STREQUAL "esp32s2" OR IDF_TARGET STREQUAL "esp32s3")
@@ -43,36 +49,36 @@ if(IDF_TARGET STREQUAL "esp32" OR IDF_TARGET STREQUAL "esp32s2" OR IDF_TARGET ST
     sensors/mega_ccm.c
     sensors/hm1055.c
     sensors/hm0360.c
-    )
+  )
 
   list(APPEND priv_include_dirs
     driver/private_include
     sensors/private_include
     target/private_include
-    )
+  )
 
   if(IDF_TARGET STREQUAL "esp32")
     list(APPEND srcs
       target/xclk.c
       target/esp32/ll_cam.c
-      )
+    )
   endif()
 
   if(IDF_TARGET STREQUAL "esp32s2")
     list(APPEND srcs
       target/xclk.c
       target/esp32s2/ll_cam.c
-      )
+    )
 
     list(APPEND priv_include_dirs
       target/esp32s2/private_include
-      )
+    )
   endif()
 
   if(IDF_TARGET STREQUAL "esp32s3")
     list(APPEND srcs
       target/esp32s3/ll_cam.c
-      )
+    )
   endif()
 
   list(APPEND priv_requires freertos nvs_flash esp_mm)
