@@ -1,13 +1,9 @@
 /*
- *
- * MEGA_CCM driver.
- *
+ * HM0360 driver.
  */
-#ifndef __MEGA_CCM_H__
-#define __MEGA_CCM_H__
-
+#ifndef __HM0360_H__
+#define __HM0360_H__
 #include "sensor.h"
-
 /**
  * @brief Detect sensor pid
  *
@@ -17,7 +13,7 @@
  *     0:       Can't detect this sensor
  *     Nonzero: This sensor has been detected
  */
-int esp32_camera_mega_ccm_detect(int slv_addr, sensor_id_t *id);
+int esp32_camera_hm0360_detect(int slv_addr, sensor_id_t *id);
 
 /**
  * @brief initialize sensor function pointers
@@ -26,6 +22,6 @@ int esp32_camera_mega_ccm_detect(int slv_addr, sensor_id_t *id);
  * @return
  *      Always 0
  */
-int esp32_camera_mega_ccm_init(sensor_t *sensor);
+int esp32_camera_hm0360_init(sensor_t *sensor);
 
-#endif // __MEGA_CCM_H__
+#endif // __HM1055_H__
